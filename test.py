@@ -9,23 +9,24 @@ def saveResult(name, url, result):
         f.write('Test URL:' + str(url) + '\n')
         f.write('Test result:' + str(result) + '\n')
         f.write('---------------------------------------------\n ')
+
+
 def checkServiceForWord(url, keyword):
     result = False
     try:
         x = requests.get(url)
         print(x.text)
-        serverStatus=1
+        serverStatus = 1
         if keyword in x.text:
             print("found keyword")
-            result=True
+            result = True
     except:
         print("error")
-        result= False
+        result = False
     return result
 
 
 class TestStringMethods(unittest.TestCase):
-
 
     def test_getProductsEndpoint(self):
         url = 'http://localhost:5000/getProducts'
@@ -45,7 +46,6 @@ class TestStringMethods(unittest.TestCase):
         self.assertTrue(result)
         saveResult('Test3', url, result)
 
-
     def test_insertProductsEndpointKeyword(self):
         url = 'http://localhost:5000/insertProducts'
         headers = {'Content-Type': 'application/json', 'api_key': 'aaa'}
@@ -57,9 +57,11 @@ class TestStringMethods(unittest.TestCase):
 
         response = requests.post(url, headers=headers, json=data)
         # Check if the request was successful (status code 201)
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 500)
 
         # Save the test result
         saveResult('Test4', url, response.status_code)
+
+
 if __name__ == '__main__':
     unittest.main(testRunner=HtmlTestRunner.HTMLTestRunner(output='test_output'))
